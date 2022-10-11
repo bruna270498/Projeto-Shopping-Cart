@@ -71,5 +71,7 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-
+createProductItemElement();
+createCartItemElement();
+getIdFromProductItem();
 window.onload = () => { };
