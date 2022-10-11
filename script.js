@@ -48,6 +48,10 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 
   return section;
 };
+const percorreProduto = async () => {
+  const produtos = await fetchProducts('computador');
+//  produtos.map((produto) => o.appendChild(createProductItemElement(produto)));
+};
 
 /**
  * Função que recupera o ID do produto passado como parâmetro.
@@ -71,7 +75,9 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-createProductItemElement();
-createCartItemElement();
-getIdFromProductItem();
-window.onload = () => { };
+// createProductItemElement();
+// createCartItemElement();
+// getIdFromProductItem();
+window.onload = () => {
+  percorreProduto();
+ };
