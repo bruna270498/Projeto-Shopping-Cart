@@ -16,7 +16,10 @@ describe('1 - Teste a função fetchProducts', () => {
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   });
   it('Verificar se me retorna um objeto', async () => {
-    const produtosObj = fetchProducts('computador').then((o) => o);
-    expect(produtosObj).toBe(computadorSearch)
+    const produtosObj = await fetchProducts('computador');
+    expect(produtosObj).toEqual(computadorSearch)
+  });
+  it('testando se chamar a função sem argumento retorne um erro', () => {
+    expect(fetchProducts()).rejects.toThrow('You must provide an url');
   })
 });
