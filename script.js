@@ -82,10 +82,11 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 const selecionarCarrinho = async () => {
   const carrinho = document.querySelector('.cart__items');
-  const botao = document.querySelector('.item__add');
-  const o = botao.id;
+  // const botao = document.querySelector('.item__add');
   const item = await fetchItem('MLB1615760527');
-  console.log(o);
+  item.forEach(({ id }) => {
+    console.log(id);
+  });
 };
 selecionarCarrinho();
 // createProductItemElement();
