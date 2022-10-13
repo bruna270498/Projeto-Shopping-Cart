@@ -1,7 +1,7 @@
-const fetchItem = async (query) => {
+const fetchItem = async (ItemID) => {
   // seu código aqui
   try {
-    const resposta = await fetch(`https://api.mercadolibre.com/items/${query}`);
+    const resposta = await fetch(`https://api.mercadolibre.com/items/${ItemID}`);
     const resultado = await resposta.json();
     return resultado;
   } catch (error) {

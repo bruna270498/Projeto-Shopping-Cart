@@ -80,6 +80,14 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+const selecionarCarrinho = async () => {
+  const carrinho = document.querySelector('.cart__items');
+  const botao = document.querySelector('.item__add');
+  const o = botao.id;
+  const item = await fetchItem('MLB1615760527');
+  console.log(o);
+};
+selecionarCarrinho();
 // createProductItemElement();
 // createCartItemElement();
 // getIdFromProductItem();
