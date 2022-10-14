@@ -1,10 +1,3 @@
-// const { fetchProducts } = require('./helpers/fetchProducts');
-
-// Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
-// experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
-
-// Fique a vontade para modificar o código já escrito e criar suas próprias funções!
-
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -64,7 +57,7 @@ const percorreProduto = async () => {
  * @returns {string} ID do produto.
  */
 const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
-
+const cartItemClickListener = () => {};
 /**
  * Função responsável por criar e retornar um item do carrinho.
  * @param {Object} product - Objeto do produto.
@@ -76,22 +69,24 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: R$${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-const selecionarCarrinho = async () => {
+const selecionarCarrinho = async ({ target }) => {
+  console.log(target);
   const carrinho = document.querySelector('.cart__items');
-  // const botao = document.querySelector('.item__add');
-  const item = await fetchItem('MLB1615760527');
-  item.forEach(({ id }) => {
-    console.log(id);
-  });
+  const produto = target.parentNode.firstChild.innerHTML;
+  const item = await fetchItem(produto);
+  const { id, title, price } = item;
+  carrinho.appendChild(createCartItemElement({ id, title, price }));
 };
-selecionarCarrinho();
+// selecionarCarrinho;
 // createProductItemElement();
 // createCartItemElement();
 // getIdFromProductItem();
-window.onload = () => {
-  percorreProduto();
+window.onload = async () => {
+  await percorreProduto();
+  const botao = document.querySelectorAll('.item__add');
+  botao.forEach((e) => e.addEventListener('click', selecionarCarrinho));
  };
