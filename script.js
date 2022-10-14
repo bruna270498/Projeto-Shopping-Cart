@@ -1,8 +1,3 @@
-/**
- * Função responsável por criar e retornar o elemento de imagem do produto.
- * @param {string} imageSource - URL da imagem.
- * @returns {Element} Elemento de imagem do produto.
- */
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -10,13 +5,6 @@ const createProductImageElement = (imageSource) => {
   return img;
 };
 
-/**
- * Função responsável por criar e retornar qualquer elemento.
- * @param {string} element - Nome do elemento a ser criado.
- * @param {string} className - Classe do elemento.
- * @param {string} innerText - Texto do elemento.
- * @returns {Element} Elemento criado.
- */
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
@@ -24,14 +12,6 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
-/**
- * Função responsável por criar e retornar o elemento do produto.
- * @param {Object} product - Objeto do produto. 
- * @param {string} product.id - ID do produto.
- * @param {string} product.title - Título do produto.
- * @param {string} product.thumbnail - URL da imagem do produto.
- * @returns {Element} Elemento de produto.
- */
 const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
@@ -51,21 +31,12 @@ const percorreProduto = async () => {
     sectionPai.appendChild(createProductItemElement(produto));
   });
 };
-/**
- * Função que recupera o ID do produto passado como parâmetro.
- * @param {Element} product - Elemento do produto.
- * @returns {string} ID do produto.
- */
+
 const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
-const cartItemClickListener = () => {};
-/**
- * Função responsável por criar e retornar um item do carrinho.
- * @param {Object} product - Objeto do produto.
- * @param {string} product.id - ID do produto.
- * @param {string} product.title - Título do produto.
- * @param {string} product.price - Preço do produto.
- * @returns {Element} Elemento de um item do carrinho.
- */
+const cartItemClickListener = (event) => {
+ return event.target.remove();
+};
+
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -81,10 +52,6 @@ const selecionarCarrinho = async ({ target }) => {
   const { id, title, price } = item;
   carrinho.appendChild(createCartItemElement({ id, title, price }));
 };
-// selecionarCarrinho;
-// createProductItemElement();
-// createCartItemElement();
-// getIdFromProductItem();
 window.onload = async () => {
   await percorreProduto();
   const botao = document.querySelectorAll('.item__add');
