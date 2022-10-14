@@ -34,7 +34,7 @@ const percorreProduto = async () => {
 
 const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 const cartItemClickListener = (event) => {
- return event.target.remove();
+  return event.target.remove();
 };
 
 const createCartItemElement = ({ id, title, price }) => {
@@ -44,16 +44,35 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
+const carrinho = document.querySelector('.cart__items');
+
 const selecionarCarrinho = async ({ target }) => {
-  console.log(target);
-  const carrinho = document.querySelector('.cart__items');
   const produto = target.parentNode.firstChild.innerHTML;
   const item = await fetchItem(produto);
   const { id, title, price } = item;
-  carrinho.appendChild(createCartItemElement({ id, title, price }));
+  const lista = createCartItemElement({ id, title, price });
+  let localStorageCartItems;
+  carrinho.appendChild(lista);
+  if (localStorage.cartItems) {
+    localStorageCartItems = JSON.parse(getSavedCartItems());
+    localStorageCartItems.push(lista.innerText);
+    console.log(localStorageCartItems);
+    saveCartItems(JSON.stringify(localStorageCartItems));
+    return;
+  }
+  saveCartItems(JSON.stringify([lista.innerText]));
 };
 window.onload = async () => {
   await percorreProduto();
   const botao = document.querySelectorAll('.item__add');
   botao.forEach((e) => e.addEventListener('click', selecionarCarrinho));
+  if (localStorage.cartItems) {
+    const retorno = JSON.parse(localStorage.cartItems);
+    retorno.forEach((e) => {
+      const l = createCustomElement('li', 'cart__item', e);
+      l.addEventListener('click', cartItemClickListener);
+      carrinho.appendChild(l);
+    });
+  }
  };

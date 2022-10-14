@@ -11,6 +11,6 @@ describe('3 - Teste a função saveCartItems', () => {
   });
   it('Testando se ao chamar a função, me retorna o localStorage com a chave e valor', () => {
     saveCartItems('cartItem')
-    expect(localStorage.setItem).toHaveBeenCalledWith('cartItem', 'cartItem')
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', 'cartItem')
   });
 });
