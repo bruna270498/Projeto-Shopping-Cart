@@ -40,11 +40,22 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: R$${price}`;
+  li.price = price;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
 const carrinho = document.querySelector('.cart__items');
+
+const soma = () => {
+  const elementoTotal = document.querySelector('.total-price');
+  const k = document.querySelectorAll('.cart__item');
+  let total = 0;
+  k.forEach(({ price }) => {
+    total += price;
+  });
+  elementoTotal.innerText = `R$${total.toLocaleString('pt-br')}`;
+};
 
 const selecionarCarrinho = async ({ target }) => {
   const produto = target.parentNode.firstChild.innerHTML;
@@ -55,12 +66,13 @@ const selecionarCarrinho = async ({ target }) => {
   carrinho.appendChild(lista);
   if (localStorage.cartItems) {
     localStorageCartItems = JSON.parse(getSavedCartItems());
-    localStorageCartItems.push(lista.innerText);
-    console.log(localStorageCartItems);
+    localStorageCartItems.push({ texto: lista.innerText, price });
     saveCartItems(JSON.stringify(localStorageCartItems));
+    soma();
     return;
   }
-  saveCartItems(JSON.stringify([lista.innerText]));
+  saveCartItems(JSON.stringify([{ texto: lista.innerText, price }]));
+  l();
 };
 window.onload = async () => {
   await percorreProduto();
@@ -69,7 +81,7 @@ window.onload = async () => {
   if (localStorage.cartItems) {
     const retorno = JSON.parse(localStorage.cartItems);
     retorno.forEach((e) => {
-      const criaElemento = createCustomElement('li', 'cart__item', e);
+      const criaElemento = createCustomElement('li', 'cart__item', e.texto);
       criaElemento.addEventListener('click', cartItemClickListener);
       carrinho.appendChild(criaElemento);
     });
