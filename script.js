@@ -39,7 +39,7 @@ const cartItemClickListener = (event) => event.target.remove();
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: R$${price}`;
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.price = price;
   li.addEventListener('click', cartItemClickListener);
   return li;
@@ -77,7 +77,7 @@ const selecionarCarrinho = async ({ target }) => {
     return;
   }
   saveCartItems(JSON.stringify([{ texto: lista.innerText, price }]));
-  l();
+  soma();
 };
 const y = () => {
   const l = document.querySelector('.empty-cart');
