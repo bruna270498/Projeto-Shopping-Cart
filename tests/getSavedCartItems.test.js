@@ -5,12 +5,12 @@ localStorageSimulator('getItem');
 
 describe('4 - Teste a função getSavedCartItems', () => {
   // implemente seus testes aqui
-  it('Teste se, passa a função com  cartItem, o método localStorage.setItem é chamado;', () => {
+  it('Teste se, passa a função  o método localStorage.getItem é chamado;', () => {
     getSavedCartItems()
     expect(localStorage.getItem).toHaveBeenCalledTimes(1) 
   });
-  it('Testando se ao chamar a função, me retorna o localStorage com a chave e valor', () => {
-    getSavedCartItems('cartItems')
+  it('Testando se ao chamar a função, me retorna o localStorage com a chave', () => {
+    getSavedCartItems()
     expect(localStorage.getItem).toHaveBeenCalledWith('cartItems')
   });
 });
