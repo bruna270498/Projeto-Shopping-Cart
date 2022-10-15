@@ -1,3 +1,5 @@
+const carrinho = document.querySelector('.cart__items');
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -23,8 +25,9 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 
   return section;
 };
+
 const percorreProduto = async () => {
- const sectionPai = document.querySelector('.items');
+  const sectionPai = document.querySelector('.items');
   const response = await fetchProducts('computador');
   const produtos = response.results;
   produtos.forEach((produto) => {
@@ -45,8 +48,6 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-const carrinho = document.querySelector('.cart__items');
-
 const soma = () => {
   const elementoTotal = document.querySelector('.total-price');
   const k = document.querySelectorAll('.cart__item');
@@ -54,12 +55,7 @@ const soma = () => {
   k.forEach(({ price }) => {
     total += price;
   });
-  elementoTotal.innerText = `R$${total.toLocaleString('pt-br')}`;
-};
-
-const o = () => {
-  const l = document.querySelector('.cart__items');
-  console.log(l.deleted());
+  elementoTotal.innerText = `R$ ${total.toLocaleString('pt-br')}`;
 };
 
 const selecionarCarrinho = async ({ target }) => {
@@ -77,16 +73,22 @@ const selecionarCarrinho = async ({ target }) => {
     return;
   }
   saveCartItems(JSON.stringify([{ texto: lista.innerText, price }]));
-  soma();
 };
-const y = () => {
-  const l = document.querySelector('.empty-cart');
-  l.addEventListener('click', o);
+
+const btnLimpar = () => {
+  const botao = document.querySelector('.empty-cart');
+  botao.addEventListener('click', () => {
+    localStorage.removeItem('cartItems');
+    window.location.reload();
+  });
 };
-window.onload = async () => {
-  await percorreProduto();
+
+const botaoAdd = () => {
   const botao = document.querySelectorAll('.item__add');
   botao.forEach((e) => e.addEventListener('click', selecionarCarrinho));
+};
+
+const storageRetornoCar = () => {
   if (localStorage.cartItems) {
     const retorno = JSON.parse(localStorage.cartItems);
     retorno.forEach((e) => {
@@ -95,5 +97,11 @@ window.onload = async () => {
       carrinho.appendChild(criaElemento);
     });
   }
-  y();
+};
+
+window.onload = async () => {
+  await percorreProduto();
+  botaoAdd();
+  storageRetornoCar();
+  btnLimpar();
  };
