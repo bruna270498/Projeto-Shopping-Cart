@@ -57,6 +57,11 @@ const soma = () => {
   elementoTotal.innerText = `R$${total.toLocaleString('pt-br')}`;
 };
 
+const o = () => {
+  const l = document.querySelector('.cart__items');
+  console.log(l.deleted());
+};
+
 const selecionarCarrinho = async ({ target }) => {
   const produto = target.parentNode.firstChild.innerHTML;
   const item = await fetchItem(produto);
@@ -74,6 +79,10 @@ const selecionarCarrinho = async ({ target }) => {
   saveCartItems(JSON.stringify([{ texto: lista.innerText, price }]));
   l();
 };
+const y = () => {
+  const l = document.querySelector('.empty-cart');
+  l.addEventListener('click', o);
+};
 window.onload = async () => {
   await percorreProduto();
   const botao = document.querySelectorAll('.item__add');
@@ -86,4 +95,5 @@ window.onload = async () => {
       carrinho.appendChild(criaElemento);
     });
   }
+  y();
  };
