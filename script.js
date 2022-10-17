@@ -1,5 +1,17 @@
 const carrinho = document.querySelector('.cart__items');
 
+const carrega = (pai) => {
+  const carregando = document.createElement('h4');
+  carregando.className = 'loading';
+  carregando.innerText = 'carregando...';
+  pai.appendChild(carregando);
+};
+
+const carregado = (pai) => {
+   const o = pai.querySelector('.loading');
+   pai.removeChild(o);
+};
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,24 +40,13 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 
 const percorreProduto = async () => {
   const sectionPai = document.querySelector('.items');
+  carrega(sectionPai);
   const response = await fetchProducts('computador');
+  carregado(sectionPai);
   const produtos = response.results;
   produtos.forEach((produto) => {
     sectionPai.appendChild(createProductItemElement(produto));
   });
-};
-
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
-
-const cartItemClickListener = (event) => event.target.remove();
-
-const createCartItemElement = ({ id, title, price }) => {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.price = price;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
 };
 
 const soma = () => {
@@ -55,21 +56,41 @@ const soma = () => {
   k.forEach(({ price }) => {
     total += price;
   });
-  elementoTotal.innerText = `R$ ${total.toLocaleString('pt-br')}`;
+  elementoTotal.innerText = `TOTAL: R$${total}`;
+};
+
+const cartItemClickListener = (event) => {
+  event.target.remove();
+  soma();
+};
+
+const createCartItemElement = ({ id, title, price }) => {
+  const li = document.createElement('li');
+  // const img = document.createElement('img');
+  // img.src = thumbnail;
+  // li.appendChild(img);
+  li.className = 'cart__item';
+  //li.appendChild(createCustomElement('p', 'cart__p', `ID: ${id} | TITLE: ${title} | PRICE: $${price}` ))
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.price = price;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 };
 
 const selecionarCarrinho = async ({ target }) => {
+  carrega(carrinho);
   const produto = target.parentNode.firstChild.innerHTML;
   const item = await fetchItem(produto);
   const { id, title, price } = item;
   const lista = createCartItemElement({ id, title, price });
   let localStorageCartItems;
+  carregado(carrinho);
   carrinho.appendChild(lista);
+  soma();
   if (localStorage.cartItems) {
     localStorageCartItems = JSON.parse(getSavedCartItems());
     localStorageCartItems.push({ texto: lista.innerText, price });
     saveCartItems(JSON.stringify(localStorageCartItems));
-    soma();
     return;
   }
   saveCartItems(JSON.stringify([{ texto: lista.innerText, price }]));
