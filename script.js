@@ -70,7 +70,6 @@ const createCartItemElement = ({ id, title, price }) => {
   // img.src = thumbnail;
   // li.appendChild(img);
   li.className = 'cart__item';
-  //li.appendChild(createCustomElement('p', 'cart__p', `ID: ${id} | TITLE: ${title} | PRICE: $${price}` ))
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.price = price;
   li.addEventListener('click', cartItemClickListener);
