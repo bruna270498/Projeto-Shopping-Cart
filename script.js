@@ -64,13 +64,17 @@ const cartItemClickListener = (event) => {
   soma();
 };
 
-const createCartItemElement = ({ id, title, price }) => {
+const createCartItemElement = ({ thumbnail, id, title, price }) => {
   const li = document.createElement('li');
-  // const img = document.createElement('img');
-  // img.src = thumbnail;
-  // li.appendChild(img);
+  const img = document.createElement('img');
+  img.src = thumbnail;
+  li.appendChild(img);
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.appendChild(createCustomElement('p', 'cart__p', `ID: ${id}  
+  TITLE: ${title}
+
+  PRICE: R$${price}`));
+  // li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.price = price;
   li.addEventListener('click', cartItemClickListener);
   return li;
@@ -80,8 +84,8 @@ const selecionarCarrinho = async ({ target }) => {
   carrega(carrinho);
   const produto = target.parentNode.firstChild.innerHTML;
   const item = await fetchItem(produto);
-  const { id, title, price } = item;
-  const lista = createCartItemElement({ id, title, price });
+  const { thumbnail, id, title, price } = item;
+  const lista = createCartItemElement({ thumbnail, id, title, price });
   let localStorageCartItems;
   carregado(carrinho);
   carrinho.appendChild(lista);

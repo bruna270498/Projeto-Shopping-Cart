@@ -18,6 +18,15 @@ body {
   height: 60px;
 }
 
+.item {
+  align-items: center;
+}
+
+.cart__item {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .container-title {
   width: 80%;
 }
